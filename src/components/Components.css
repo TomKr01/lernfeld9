@@ -1,0 +1,16 @@
+.list-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.list-wrapper-hosts {
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+}
+
+.elements-wrapper {
+    display: flex;
+    flex-direction: row;
+}
