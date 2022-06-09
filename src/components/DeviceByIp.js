@@ -1,35 +1,39 @@
-import React, {Component} from 'react';
+import React, { useEffect } from "react";
 
-export default class DeviceByIp extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {ip: ''};
+export default function DeviceByIp() {
+    const [ip, setIp] = React.useState([]);
+    const [device, setDevice] = React.useState([]);
 
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({ip: event.target.value});
-        console.log(this.state.ip)
-    }
-    fetchDeviceData()   {
-        /*fetch('http://localhost:58000/api/v1/network-device/ip-address/' + this.state.ip)
+    function handleChange(event) {
+        setIp(event.target.value)
+    };
+    
+    function fetchDeviceData() {
+        console.log("mounted");
+        fetch('network-device/ip-address/' + ip, {
+            method: 'GET',
+            headers: {
+                'X-Auth-Token': 'NC-33-402adc62fd414a139e9c-nbi',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }})
             .then(response => response.json())
-            .then(data => console.log("Data" + data));*/
-    }
+            .then(data => {
+                setDevice(data)
+            });
+      };
 
-    render() {
+    
         return (
             <div>
-                <form onSubmit={this.fetchDeviceData}>
+                <div >
                     <label>
                         IP-Adresse:
-                        <input type="text" value={this.state.ip} onChange={this.handleChange} />
+                        <input type="text" value={ip} onChange={handleChange} />
                     </label>
-                    <input type="submit" value="Submit" />
-                    <label>{this.state.ip}</label>
-                </form>
+                    <input type="submit" value="Submit" onClick={fetchDeviceData}/>
+                    <label>Name: {device["hostname"]} Type: {device["type"]}</label>
+                </div>
             </div>
         )
-    }
 }
